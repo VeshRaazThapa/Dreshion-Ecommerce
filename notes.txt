@@ -1,0 +1,2 @@
+conda activate ecommerce
+python3 manage.py runserver
