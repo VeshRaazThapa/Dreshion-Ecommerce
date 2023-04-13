@@ -1,0 +1,78 @@
+[
+  {
+    "user": "user 1",
+    "id": 1,
+    "measurements": {
+      "hip": 34,
+      "high_hip": 32,
+      "bust": 30,
+      "waist": 35
+    },
+    "skin_tone": "warm",
+    "gender": "female"
+  },
+  {
+    "user": "user 2",
+    "id": 2,
+    "measurements": {
+      "hip": 34,
+      "high_hip": 32,
+      "bust": 30,
+      "waist": 35
+    },
+    "skin_tone": "cool",
+    "gender": "female"
+  },
+  {
+    "user": "user 3",
+    "id": 3,
+    "measurements": {
+      "shoulder": 15,
+      "hip": 37,
+      "high_hip": 35,
+      "bust": 37,
+      "waist": 27
+    },
+    "skin_tone": "cool",
+    "gender": "female"
+  },
+  {
+    "user": "user 4",
+    "id": 4,
+    "measurements": {
+      "shoulder": 15,
+      "hip": 37,
+      "high_hip": 35,
+      "bust": 39,
+      "waist": 27
+    },
+    "skin_tone": "warm",
+    "gender": "female"
+  },
+  {
+    "user": "user 5",
+    "id": 5,
+    "measurements": {
+      "shoulder": 15,
+      "hip": 37,
+      "high_hip": 35,
+      "bust": 40,
+      "waist": 35
+    },
+    "skin_tone": "cool",
+    "gender": "male"
+  },
+  {
+    "user": "Vesh",
+    "id": 6,
+    "measurements": {
+      "shoulder": 15,
+      "hip": 35.43307,
+      "high_hip": 34,
+      "bust": 35.03937,
+      "waist": 31.8898
+    },
+    "skin_tone": "warm",
+    "gender": "male"
+  }
+]

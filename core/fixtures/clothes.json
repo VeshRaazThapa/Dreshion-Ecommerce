@@ -1,0 +1,81 @@
+[
+    {
+        "dresshion_id": 1,
+        "brand_style_id": "111",
+        "name":"Polo Ralph Lauren",
+        "type":"sweater",
+        "short_desc":"crew neck cashmere sweater",
+        "color_desc": "chocolate brown",
+        "hex_color_code": "4F3933",
+        "photos":
+            {
+                "front": "clothes/sweater/1/front.jpeg",
+                "close_front_wearing": "clothes/sweater/1/close_front_wearing.jpeg",
+                "side_wearing": "clothes/sweater/1/side_wearing.jpeg",
+                "back_wearing": "clothes/sweater/1/back_wearing.jpeg"
+            }
+        ,
+        "body_types": [1,2,8],
+        "composition": "100% Cashmere",
+        "neck":"crew",
+        "sleeves": "long",
+        "hem": "ribbed",
+        "shoulder": "drop",
+        "Washing instructions": "Hand Wash",
+        "for": "unisex",
+        "measurements": [
+            {
+                "size": "L",
+                "sleeve":66,
+                "shoulder":13,
+                "length":69
+            },
+            {
+                "size": "XXL",
+                "sleeve":70,
+                "shoulder":14.5,
+                "length":69
+            }
+        ]
+    },
+    {
+        "dresshion_id": 2,
+        "brand_style_id": "UKS402018",
+        "name":"AMI Paris",
+        "type":"sweater",
+        "short_desc":"Ami de Coeur roll-neck jumper",
+        "color_desc": "grey",
+        "hex_color_code": "BDBABF",
+        "photos":
+            {
+                "front": "clothes/sweater/2/front.jpeg",
+                "close_front": "clothes/sweater/2/close_front.jpeg",
+                "close_front_wearing": "",
+                "side_wearing": "",
+                "back_wearing": "clothes/sweater/2/back_wearing.jpeg"
+            }
+        ,
+        "body_types": [1,2],
+        "composition": "100% Wool",
+        "neck":"roll",
+        "sleeves": "long",
+        "hem": "ribbed",
+        "shoulder": "drop",
+        "Washing instructions": "Hand Wash",
+        "for": "unisex",
+        "measurements": [
+            {
+                "size": "L",
+                "sleeve":66,
+                "shoulder":13,
+                "length":69
+            },
+            {
+                "size": "XXL",
+                "sleeve":70,
+                "shoulder":14.5,
+                "length":69
+            }
+        ]
+    }
+]

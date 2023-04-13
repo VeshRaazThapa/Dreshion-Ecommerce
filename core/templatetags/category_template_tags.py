@@ -32,6 +32,12 @@ def categories_li_a():
                                                                                                          i.title)
     return mark_safe(items_li_a)
 
+# @register.simple_tag
+# def occasion_li_a():
+#     items = Occasion.objects.filter(is_active=True).order_by('name')
+#
+#     return mark_safe(items_li_a)
+
 
 @register.simple_tag
 def categories_div():

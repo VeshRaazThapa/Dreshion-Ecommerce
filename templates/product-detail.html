@@ -32,18 +32,20 @@
 								<img src="{{ object.image.url }}" alt="{{ object.title }}">
 							</div>
 						</div>
-
-						<div class="item-slick3" data-thumb="{% static 'images/product-detail2.jpg' %}">
+                        {% if object.vton_image %}
+						<div class="item-slick3" data-thumb="{{ object.vton_image.url }}">
 							<div class="wrap-pic-w">
-								<img src="{% static 'images/product-detail2.jpg' %}" alt="IMG-PRODUCT">
+                                <img src="{{ object.vton_image.url }}" alt="{{ object.title }}">
+
 							</div>
 						</div>
+                        {% endif %}
 
-						<div class="item-slick3" data-thumb="{% static 'images/product-detail3.jpg' %}">
-							<div class="wrap-pic-w">
-								<img src="{% static 'images/product-detail3.jpg' %}" alt="IMG-PRODUCT">
-							</div>
-						</div>
+{#						<div class="item-slick3" data-thumb="{% static 'images/product-detail3.jpg' %}">#}
+{#							<div class="wrap-pic-w">#}
+{#								<img src="{% static 'images/product-detail3.jpg' %}" alt="IMG-PRODUCT">#}
+{#							</div>#}
+{#						</div>#}
 					</div>
 				</div>
 			</div>
@@ -162,7 +164,7 @@
 
 					<div class="dropdown-content dis-none p-t-15 p-b-23">
 						<p class="s-text8">
-							Fusce ornare mi vel risus porttitor dignissim. Nunc eget risus at ipsum blandit ornare vel sed velit. Proin gravida arcu nisl, a dignissim mauris placerat
+							{{ object.description_long }}
 						</p>
 					</div>
 				</div>
@@ -183,6 +185,179 @@
 			</div>
 		</div>
 	</div>
+
+    <!-- Matching outfits for above Product -->
+	<section class="relateproduct bgwhite p-t-45 p-b-138">
+		<div class="container">
+			<div class="sec-title p-b-60">
+				<h3 class="m-text5 t-center">
+					Matching Outfits
+				</h3>
+			</div>
+
+			<!-- Slide2 -->
+			<div class="wrap-slick2">
+				<div class="slick2">
+                    {% for item in recommended_matching_clothes.complementary %}
+					<div class="item-slick2 p-l-15 p-r-15">
+						<!-- Block2 -->
+						<div class="block2">
+							<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+								<img src="{{ item.cloth.image.url }}" alt="IMG-PRODUCT">
+
+								<div class="block2-overlay trans-0-4">
+									<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+										<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+										<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+									</a>
+
+									<div class="block2-btn-addcart w-size1 trans-0-4">
+										<!-- Button -->
+										<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+											Add to Cart
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="block2-txt p-t-20">
+								<a href="{% url 'core:product' item.cloth.slug %}" class="block2-name dis-block s-text3 p-b-5">
+									{{ item.cloth.description_short }}
+								</a>
+                                <a href="{% url 'core:product' item.cloth.slug %}" class="block2-name dis-block s-text3 p-b-5">
+									Matching Style: Complementary
+								</a>
+
+								<span class="block2-price m-text6 p-r-5">
+									${{ item.cloth.price }}
+
+								</span>
+							</div>
+						</div>
+					</div>
+                    {% endfor %}
+                    {% for item in recommended_matching_clothes.triadic %}
+					<div class="item-slick2 p-l-15 p-r-15">
+						<!-- Block2 -->
+						<div class="block2">
+							<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+								<img src="{{ item.cloth.image.url }}" alt="IMG-PRODUCT">
+
+								<div class="block2-overlay trans-0-4">
+									<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+										<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+										<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+									</a>
+
+									<div class="block2-btn-addcart w-size1 trans-0-4">
+										<!-- Button -->
+										<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+											Add to Cart
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="block2-txt p-t-20">
+								<a href="{% url 'core:product' item.cloth.slug %}" class="block2-name dis-block s-text3 p-b-5">
+									{{ item.cloth.description_short }}
+								</a>
+                                <a href="{% url 'core:product' item.cloth.slug %}" class="block2-name dis-block s-text3 p-b-5">
+									Matching Style: Triadic
+								</a>
+
+								<span class="block2-price m-text6 p-r-5">
+									${{ item.cloth.price }}
+
+								</span>
+							</div>
+						</div>
+					</div>
+                    {% endfor %}
+                    {% for item in recommended_matching_clothes.analogous %}
+					<div class="item-slick2 p-l-15 p-r-15">
+						<!-- Block2 -->
+						<div class="block2">
+							<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+								<img src="{{ item.cloth.image.url }}" alt="IMG-PRODUCT">
+
+								<div class="block2-overlay trans-0-4">
+									<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+										<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+										<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+									</a>
+
+									<div class="block2-btn-addcart w-size1 trans-0-4">
+										<!-- Button -->
+										<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+											Add to Cart
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="block2-txt p-t-20">
+								<a href="{% url 'core:product' item.cloth.slug %}" class="block2-name dis-block s-text3 p-b-5">
+									{{ item.cloth.description_short }}
+								</a>
+                                <a href="{% url 'core:product' item.cloth.slug %}" class="block2-name dis-block s-text3 p-b-5">
+									Matching Style: Analogous
+								</a>
+
+								<span class="block2-price m-text6 p-r-5">
+									${{ item.cloth.price }}
+
+								</span>
+							</div>
+						</div>
+					</div>
+                    {% endfor %}
+                    {% for item in recommended_matching_clothes.monochromatic %}
+					<div class="item-slick2 p-l-15 p-r-15">
+						<!-- Block2 -->
+						<div class="block2">
+							<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+								<img src="{{ item.cloth.image.url }}" alt="IMG-PRODUCT">
+
+								<div class="block2-overlay trans-0-4">
+									<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+										<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+										<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+									</a>
+
+									<div class="block2-btn-addcart w-size1 trans-0-4">
+										<!-- Button -->
+										<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+											Add to Cart
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="block2-txt p-t-20">
+								<a href="{% url 'core:product' item.cloth.slug %}" class="block2-name dis-block s-text3 p-b-5">
+									{{ item.cloth.description_short }}
+								</a>
+                                <a href="{% url 'core:product' item.cloth.slug %}" class="block2-name dis-block s-text3 p-b-5">
+									Matching Style: Monochromatic
+								</a>
+
+								<span class="block2-price m-text6 p-r-5">
+									${{ item.cloth.price }}
+
+								</span>
+							</div>
+						</div>
+					</div>
+                    {% endfor %}
+
+
+				</div>
+			</div>
+
+		</div>
+	</section>
+
 
 
 	<!-- Relate Product -->

@@ -23,7 +23,32 @@ ADDRESS_CHOICES = (
     ('S', 'Shipping'),
 )
 
+TOP = 'top_piece'
+BOTTOM = 'bottom_piece'
+ONEPIECE = 'one_piece'
+OTHER = 'other'
+WEARING_PART_CHOICES = (
+    (TOP, 'Top Piece'),
+    (BOTTOM, 'Bottom Piece'),
+    (ONEPIECE, 'One Piece'),
+    (OTHER, 'Other'),
+)
 
+GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other'),
+    )
+SKIN_TONE_CHOICES = (
+        ('F', 'Fair'),
+        ('M', 'Medium'),
+        ('D', 'Dark'),
+)
+UNDER_TONE_CHOICES = (
+        ('W', 'Warm'),
+        ('C', 'Cool'),
+        ('N', 'Neutral'),
+    )
 class Slide(models.Model):
     caption1 = models.CharField(max_length=100)
     caption2 = models.CharField(max_length=100)
@@ -33,6 +58,7 @@ class Slide(models.Model):
 
     def __str__(self):
         return "{} - {}".format(self.caption1, self.caption2)
+
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
@@ -50,20 +76,90 @@ class Category(models.Model):
         })
 
 
+class BodyType(models.Model):
+
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Occasion(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+class Weather(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+class DressType(models.Model):
+
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+class Measurements(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+class Gender(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
 class Item(models.Model):
+    OCCASION_CHOICES = (
+        ('casual', 'Casual'),
+        ('formal', 'Formal'),
+        ('semi_formal', 'Semi-Formal'),
+        ('business_or_professional', 'Business/Professional'),
+        ('romantic_date', 'Romantic Date'),
+        ('sports_athletic', 'Sports/Athletic'),
+        ('sport', 'Sport'),
+        ('party', 'Party'),
+    )
+    MALE = 'male'
+    FEMALE = 'female'
+    OTHER = 'other'
+
+    GENDER_CHOICES = (
+        (MALE, 'Male'),
+        (FEMALE, 'Female'),
+        (OTHER, 'Other'),
+    )
+
     title = models.CharField(max_length=100)
+    # type = models.CharField(max_length=100, blank=True, null=True)
+    type = models.ForeignKey(DressType, on_delete=models.CASCADE,blank=True, null=True)
     price = models.FloatField()
     discount_price = models.FloatField(blank=True, null=True)
+    occasion = models.ManyToManyField(Occasion)
+    weather = models.ManyToManyField(Weather)
+    # gender = models.CharField(max_length=20, choices=GENDER_CHOICES, default=MALE)
+    gender = models.ManyToManyField(Gender, blank=True)
+    color_description = models.CharField(max_length=100, blank=True, null=True)
+    hex_code = models.CharField(max_length=7, blank=True, null=True)
+    matching_outfit = models.ManyToManyField("self", blank=True)
+    Measurements = models.ManyToManyField(Measurements, blank=True)
+    # weather = models.CharField(max_length=100,choices=WEATHER_CHOICES)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    wearing_part = models.CharField(max_length=20, choices=WEARING_PART_CHOICES, default=OTHER)
     label = models.CharField(choices=LABEL_CHOICES, max_length=1)
+    body_type = models.ManyToManyField(BodyType,blank=True)
     slug = models.SlugField()
     stock_no = models.CharField(max_length=10)
     description_short = models.CharField(max_length=50)
     description_long = models.TextField()
     image = models.ImageField()
+    vton_image = models.ImageField(blank=True,null=True)
+
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
+
         return self.title
 
     def get_absolute_url(self):
@@ -194,3 +290,23 @@ class Refund(models.Model):
 
     def __str__(self):
         return f"{self.pk}"
+
+
+from django.db import models
+from django.contrib.auth.models import User
+class Profile(models.Model):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    hip = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    height = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    high_hip = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    bust = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    waist = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    skin_tone = models.CharField(max_length=1, choices=SKIN_TONE_CHOICES, null=True, blank=True)
+    under_tone = models.CharField(max_length=1, choices=UNDER_TONE_CHOICES, null=True, blank=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
+    picture = models.ImageField(upload_to='user',blank=True)
+    front_image = models.ImageField(upload_to='user/front',blank=True)
+    back_image = models.ImageField(upload_to='user/back',blank=True)
+    def __str__(self):
+        return self.user.username

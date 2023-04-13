@@ -11,7 +11,9 @@ from .views import (
     PaymentView,
     AddCouponView,
     RequestRefundView,
-    CategoryView
+    CategoryView,
+    filter_data
+
 )
 
 app_name = 'core'
@@ -21,6 +23,7 @@ urlpatterns = [
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('category/<slug>/', CategoryView.as_view(), name='category'),
     path('product/<slug>/', ItemDetailView.as_view(), name='product'),
+    path('filter-product/', filter_data, name='filter-product'),
     path('add-to-cart/<slug>/', add_to_cart, name='add-to-cart'),
     path('add_coupon/', AddCouponView.as_view(), name='add-coupon'),
     path('remove-from-cart/<slug>/', remove_from_cart, name='remove-from-cart'),
