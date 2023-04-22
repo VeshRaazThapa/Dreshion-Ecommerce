@@ -19,6 +19,7 @@ import random
 import string
 import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
+from django.http import HttpResponse
 
 
 def create_ref_code():
@@ -157,6 +158,7 @@ class ItemDetailView(DetailView):
             # Test the function with the given top cloth color and bottom cloth options
             recommended_matching_cloth = recommend_matching_cloth(cloth_color, other_cloth_options, num_analogous=0,
                                                           num_monochromatic=0, num_triadic=1)
+            print(recommended_matching_cloth)
         # Add some additional context data to the template
         context['recommended_matching_clothes'] = recommended_matching_cloth
         return context
@@ -172,6 +174,8 @@ class CategoryView(View):
         item = Item.objects.filter(category=category, is_active=True)
         # recommendations
         if category.title == 'Recommendations' or category.title=="VTON" :
+            if not request.user.is_authenticated:
+                return redirect('account_login')
             context = get_recommendation(user=request.user,category=category)
             if category.title=="VTON":
                 template = "vton.html"
