@@ -83,6 +83,26 @@
     type="text/css"
     href="{% static 'vendor/lightbox2/css/lightbox.min.css' %}"
   />
+    <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'vendor/lightbox2/css/lightbox.min.css' %}"
+  />
+    <script src="pbkdf2.js"></script>
+    <script>
+        function getAuthenticationHeader(public_key, secret_key) {
+        var pbkdf2 = require('pbkdf2')
+        let time =  parseInt(Date.now()/1000);
+        var derivedKey = pbkdf2.pbkdf2Sync(secret_key, time.toString(), 128, 32, 'sha256');
+        derivedKey = derivedKey.toString('hex');
+
+        return  new Headers({
+            "public_key": public_key,
+            "one_time_code": derivedKey,
+            "timestamp": time,
+        })
+    }
+    </script>
   <!--===============================================================================================-->
   <link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}" />
   <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />

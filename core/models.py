@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models import Sum
 from django.shortcuts import reverse
 from django_countries.fields import CountryField
+from django.contrib.auth.models import User
 
 # Create your models here.
 CATEGORY_CHOICES = (
@@ -110,6 +111,7 @@ class Gender(models.Model):
 
     def __str__(self):
         return self.name
+
 class Item(models.Model):
     OCCASION_CHOICES = (
         ('casual', 'Casual'),
@@ -154,9 +156,11 @@ class Item(models.Model):
     description_short = models.CharField(max_length=50)
     description_long = models.TextField()
     image = models.ImageField()
-    vton_image = models.ImageField(blank=True,null=True)
+    vton_image = models.ImageField(upload_to='vton',blank=True,null=True)
+    edge_image = models.ImageField(upload_to='edge',blank=True,null=True)
 
     is_active = models.BooleanField(default=True)
+    process_image = models.BooleanField(default=False)
 
     def __str__(self):
 
@@ -292,8 +296,6 @@ class Refund(models.Model):
         return f"{self.pk}"
 
 
-from django.db import models
-from django.contrib.auth.models import User
 class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -304,9 +306,14 @@ class Profile(models.Model):
     waist = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     skin_tone = models.CharField(max_length=1, choices=SKIN_TONE_CHOICES, null=True, blank=True)
     under_tone = models.CharField(max_length=1, choices=UNDER_TONE_CHOICES, null=True, blank=True)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
+    # gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
+    gender = models.ForeignKey(Gender, blank=True,null=True,on_delete=models.SET_NULL)
     picture = models.ImageField(upload_to='user',blank=True)
     front_image = models.ImageField(upload_to='user/front',blank=True)
     back_image = models.ImageField(upload_to='user/back',blank=True)
+    label_image = models.ImageField(upload_to='user/label',blank=True)
+    pose_keypoints = models.FileField(upload_to='user/pose_keypoints',blank=True)
+    process_image = models.BooleanField(default=False)
+
     def __str__(self):
         return self.user.username

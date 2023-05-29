@@ -7,19 +7,25 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, View
 from django.shortcuts import redirect
 from django.utils import timezone
-from core.forms import CheckoutForm, CouponForm, RefundForm
+from core.forms import CheckoutForm, CouponForm, RefundForm, UserCreationForm
 from core.models import Item, OrderItem, Order, BillingAddress, Payment, Coupon, Refund, Category, \
-TOP,BOTTOM,ONEPIECE,OTHER
+    TOP, BOTTOM, ONEPIECE, OTHER, Profile, Gender
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from .recommendations import get_recommendation, calculate_harmony_score, recommend_matching_cloth,user_body_type_detection
+from .recommendations import get_recommendation, calculate_harmony_score, recommend_matching_cloth, \
+    user_body_type_detection
 
 # Create your views here.
 import random
 import string
 import stripe
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+from django.core.files import File
 
 
 def create_ref_code():
@@ -139,27 +145,78 @@ class ItemDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_profile=self.request.user.profile
-        body_type = user_body_type_detection(user_profile.bust,user_profile.hip,user_profile.high_hip,user_profile.waist,user_profile.gender)
-        current_object = self.object
-        cloth_color =  '#' + current_object.hex_code
-        cloth_gender = current_object.gender
-        if current_object.wearing_part == TOP:
-            wearing_part = BOTTOM
-        elif current_object.wearing_part == BOTTOM:
-            wearing_part = TOP
-        else:
-            wearing_part = OTHER
-        other_cloth_options = Item.objects.filter(wearing_part=wearing_part,body_type=body_type,gender__in=cloth_gender.all(),is_active=True)
-        # other_cloth_options = ['#' + x for x in other_cloth_options]
-        other_cloth_options = [{'cloth' :x,'color': '#' + x.hex_code} for x in other_cloth_options]
-        recommended_matching_cloth=None
-        if other_cloth_options:
-            # Test the function with the given top cloth color and bottom cloth options
-            recommended_matching_cloth = recommend_matching_cloth(cloth_color, other_cloth_options, num_analogous=0,
-                                                          num_monochromatic=0, num_triadic=1)
-            print(recommended_matching_cloth)
-        # Add some additional context data to the template
+        recommended_matching_cloth = None
+        if self.request.user.is_authenticated:
+            user_profile = self.request.user.profile
+            body_type = user_body_type_detection(user_profile.bust, user_profile.hip, user_profile.high_hip,
+                                                 user_profile.waist, user_profile.gender)
+            current_object = self.object
+            if current_object.hex_code:
+                cloth_color = '#' + current_object.hex_code
+                cloth_gender = current_object.gender
+                if current_object.wearing_part == TOP:
+                    wearing_part = BOTTOM
+                elif current_object.wearing_part == BOTTOM:
+                    wearing_part = TOP
+                else:
+                    wearing_part = OTHER
+                other_cloth_options = Item.objects.filter(wearing_part=wearing_part, body_type=body_type,
+                                                          gender__in=cloth_gender.all(), is_active=True)
+                # other_cloth_options = ['#' + x for x in other_cloth_options]
+                other_cloth_options = [{'cloth': x, 'color': '#' + x.hex_code} for x in other_cloth_options]
+                if other_cloth_options:
+                    # Test the function with the given top cloth color and bottom cloth options
+                    recommended_matching_cloth = recommend_matching_cloth(cloth_color, other_cloth_options,
+                                                                          num_analogous=0,
+                                                                          num_monochromatic=0, num_triadic=1)
+                    print(recommended_matching_cloth)
+            # if False:
+            ## sending virtual tryon images
+            try:
+                with user_profile.front_image.open() as f:
+                    file = File(f)
+                    person_image_data = file.read()
+
+                with user_profile.label_image.open() as f:
+                    file = File(f)
+                    label_image_data = file.read()
+
+                with user_profile.pose_keypoints.open() as f:
+                    file = File(f)
+                    pose_keypoints_data = file.read()
+
+                with current_object.edge_image.open() as f:
+                    file = File(f)
+                    edge_image_data = file.read()
+
+                with current_object.image.open() as f:
+                    file = File(f)
+                    cloth_image_data = file.read()
+                import requests
+                files = {
+                    'person': ('person.jpg', person_image_data, 'image/jpeg'),
+                    'person_label': ('person.png', label_image_data, 'image/jpeg'),
+                    'pose_keypoints_data': ('person_keypoints.json', pose_keypoints_data, 'json'),
+                    'edge_image_data': ('cloth.png', edge_image_data, 'image/jpeg'),
+                    'cloth_image_data': ('cloth.png', cloth_image_data, 'image/jpeg'),
+                }
+                # multipart_data = MultipartEncoder(fields=data)
+                # process_image = False
+                process_image = True
+                if process_image:
+                    # Make the POST request to the API endpoint
+                    response = requests.post('http://127.0.0.1:5000/virtual-tryon', data={}, files=files
+                                             # headers={'Content-Type': multipart_data.content_type}
+                                             )
+                    from django.core.files.base import ContentFile
+
+                    # vton_image = ContentFile(response.content)
+                    current_object.vton_image.save('viton_image.png', ContentFile(response.content), save=True)
+            except:
+                print("error raised")
+            # context['vton_image'] = vton_image
+
+            # Add some additional context data to the template
         context['recommended_matching_clothes'] = recommended_matching_cloth
         return context
 
@@ -169,15 +226,15 @@ class ItemDetailView(DetailView):
 #     template_name = "category.html"
 
 class CategoryView(View):
-    def get(self,request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         category = Category.objects.get(slug=self.kwargs['slug'])
         item = Item.objects.filter(category=category, is_active=True)
         # recommendations
-        if category.title == 'Recommendations' or category.title=="VTON" :
+        if category.title == 'Recommendations' or category.title == "VTON":
             if not request.user.is_authenticated:
                 return redirect('account_login')
-            context = get_recommendation(user=request.user,category=category)
-            if category.title=="VTON":
+            context = get_recommendation(user=request.user, category=category)
+            if category.title == "VTON":
                 template = "vton.html"
             else:
                 template = "recommendation.html"
@@ -431,3 +488,49 @@ class RequestRefundView(View):
             except ObjectDoesNotExist:
                 messages.info(self.request, "This order does not exist")
                 return redirect("core:request-refund")
+
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = User()
+            user.username = form.cleaned_data.get('username')
+            user.set_password(form.cleaned_data.get('password1'))
+            user.save()
+
+            # save the profile of the user
+            profile = Profile()
+            profile.user = user
+            profile.height = form.cleaned_data.get('height', '')
+            profile.hip = form.cleaned_data.get('hip', '')
+            profile.high_hip = form.cleaned_data.get('high_hip', '')
+            profile.waist = form.cleaned_data.get('waist', '')
+            profile.bust = form.cleaned_data.get('bust', '')
+            profile.skin_tone = form.cleaned_data.get('skin_tone', '')
+            profile.under_tone = form.cleaned_data.get('under_tone', '')
+            gender = form.cleaned_data.get('gender', '')
+
+
+            profile.picture = form.cleaned_data.get('picture', '')
+            profile.front_image = form.cleaned_data.get('front_image', '')
+            # profile.back_image = form.cleaned_data.get('back_image', '')
+
+            profile.save()
+
+            if gender == 'M':
+                profile.gender = Gender.objects.get(name='Female')
+            elif gender == 'F':
+                profile.gender=Gender.objects.get(name='Male')
+            else:
+                profile.gender=Gender.objects.get(name='Other')
+
+            profile.save()
+            messages.success(request, "Successfully created user")
+            return redirect('account_login')
+
+        else:
+            return render(request, 'account/register.html', {'form': form})
+    else:
+        form = UserCreationForm()
+        return render(request, 'account/register.html', {'form': form})

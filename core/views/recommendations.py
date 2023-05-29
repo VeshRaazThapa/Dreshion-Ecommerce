@@ -14,7 +14,7 @@ def filter_data(request):
     # Retrieve filter parameters from GET request
     occasion_filter = request.GET.get('occasion_id')
     # filter2 = request.GET.get('filter2')
-    print(occasion_filter)
+    # print(occasion_filter)
 
     user_profile = request.user.profile
     user_body_type = user_body_type_detection(user_profile.bust, user_profile.hip,
@@ -41,28 +41,9 @@ def get_recommendation(user,category):
                                               user_profile.high_hip, user_profile.waist,
                                               user_profile.gender)
 
-    # import requests
-
-    # response = requests.get('http://697a-35-186-152-117.ngrok.io')
-    # print(response.text,'---------')
-
-    # import requests
-    #
-    # url = 'http://4ca4-35-186-152-117.ngrok.io/'
-    # file1_path = "/Users/stuff/Desktop/Files/project/dresshion_ecommerce/media_root/person.jpeg"
-    # file2_path = "/Users/stuff/Desktop/Files/project/dresshion_ecommerce/media_root/cloth.jpg"
-    #
-    # with open(file1_path, "rb") as f1, open(file2_path, "rb") as f2:
-    #     files = {"file1": f1, "file2": f2}
-    #     response = requests.post(url, files=files)
-    #
-    # print(response.status_code)
-    # print(response.json(),'-------')
-
-
     # print(user_body_type)
     # Search for the row with the given ID
-    user_appropriate_clothes = Item.objects.filter(category=1, body_type=user_body_type, is_active=True)
+    user_appropriate_clothes = Item.objects.filter(category=1, gender=user_profile.gender, body_type=user_body_type, is_active=True)
 
     # Display the result
     # print(user_appropriate_clothes)
@@ -81,6 +62,7 @@ def get_recommendation(user,category):
     return context
 
 def user_body_type_detection(bust, hip, high_hip, waist, gender):
+
     body_type_prediction = ''
     # body_types = BodyType.objects.all()
     if (bust - hip) <= 1 and (hip - bust) < 3.6 and (bust - waist) >= 9 or (hip - waist) >= 10:

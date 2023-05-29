@@ -8,7 +8,7 @@ register = template.Library()
 
 @register.simple_tag
 def categories():
-    items = Category.objects.filter(is_active=True).order_by('title')
+    items = Category.objects.filter(is_active=True).order_by('id')
     items_li = ""
     for i in items:
         items_li += """<li><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
@@ -16,7 +16,7 @@ def categories():
 
 @register.simple_tag
 def categories_mobile():
-    items = Category.objects.filter(is_active=True).order_by('title')
+    items = Category.objects.filter(is_active=True).order_by('id')
     items_li = ""
     for i in items:
         items_li += """<li class="item-menu-mobile"><a href="/category/{}">{}</a></li>""".format(i.slug, i.title)
@@ -25,7 +25,7 @@ def categories_mobile():
 
 @register.simple_tag
 def categories_li_a():
-    items = Category.objects.filter(is_active=True).order_by('title')
+    items = Category.objects.filter(is_active=True).order_by('id')
     items_li_a = ""
     for i in items:
         items_li_a += """<li class="p-t-4"><a href="/category/{}" class="s-text13">{}</a></li>""".format(i.slug,
@@ -45,7 +45,7 @@ def categories_div():
     section banner
     :return:
     """
-    items = Category.objects.filter(is_active=True).order_by('title')
+    items = Category.objects.filter(is_active=True).order_by('id')
     items_div = ""
     item_div_list = ""
     for i, j in enumerate(items):

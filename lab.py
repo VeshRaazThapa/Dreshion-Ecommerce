@@ -1,38 +1,60 @@
-import cv2
-import numpy as np
-import tensorflow as tf
-import keras
-from mrcnn import model as modellib, utils
-from mrcnn.config import Config
+# First, install the google-colab package
 
-# Define the Mask R-CNN configuration
-class MaskRCNNConfig(Config):
-    NAME = "MaskRCNN"
-    IMAGES_PER_GPU = 1
-    NUM_CLASSES = 2  # background + person
-    DETECTION_MIN_CONFIDENCE = 0.9
+from google.colab import auth
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
-# Create the Mask R-CNN model
-model = modellib.MaskRCNN(mode="inference", config=MaskRCNNConfig(), model_dir='./')
+# Authenticate with Google Cloud Platform using a service account key
+# auth.authenticate_user()
+# project_id = '1RvccXg4CyXrbyRF9oYr7aaf3YqUpYtzg'
+project_id = 'bauddha-patro'
+service_account_key = 'bauddha-patro-318cc519bdb4.json'
 
-# Load the trained weights
-model_path = "./mask_rcnn_balloon.h5"
-model.load_weights(model_path, by_name=True)
+# Create a credentials object
+from google.oauth2.credentials import Credentials
+from google.oauth2 import service_account
 
-# Load the image
-image = cv2.imread('path/to/image.jpg')
+creds = service_account.Credentials.from_service_account_file(service_account_key)
 
-# Convert the image to RGB format
-image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-# Run the detection
-results = model.detect([image], verbose=0)
+# Create a Google Colab API client
+colab = build('notebooks', 'v1', credentials=creds)
+# colab_notebooks = colab.notebooks()
 
-# Extract the person's mask
-mask = results[0]['masks'][:, :, 0]
+# Set the notebook name
+notebook_name = 'My Colab Notebook'
+command='ls'
+# Get the session name for the notebook
+response = colab.projects().locations().instances().list(parent=f"projects/{project_id}/locations/-").execute()
+instance_name = None
+print(response)
+for instance in response.get('instances', []):
+    if instance['metadata']['runtimeName'] == 'notebook':
+        if instance['metadata']['labels'].get('name') == notebook_name:
+            instance_name = instance['name']
+            break
+if not instance_name:
+    print(f'Notebook "{notebook_name}" not found')
+    exit()
 
-# Extract the person's body and clothing region
-person_image = np.zeros_like(image)
-person_image[:, :, 0] = image[:, :, 0] * mask
-person_image[:, :, 1] = image[:, :, 1] * mask
-person_image[:, :, 2] = image[:, :, 2] * mask
+# Start a new session in the notebook
+session = colab.projects().locations().instances().sessions().create(parent=instance_name, instance=instance_name).execute()
+session_name = session['name']
+
+# Execute the command in the session and print the output
+try:
+    request = colab.projects().locations().instances().sessions().execute(
+        name=session_name,
+        requestBody={
+            'code': command,
+            'outputs': [{'notebookOutput': {'dataType': 'STRING'}}]
+        }
+    )
+    response = request.execute()
+    output = response['outputs'][0]['notebookOutput']['data']
+    print(output)
+except HttpError as error:
+    print(f'An error occurred: {error}')
+
+# Delete the session
+colab.projects().locations().instances().sessions().delete(name=session_name).execute()
