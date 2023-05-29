@@ -1,0 +1,144 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block title %} Register {% endblock %}
+
+{% block content %}
+    <style type="text/css">
+        input {
+
+            border: 1px solid #ced4da !important;
+
+        }
+    </style>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6 mt-5 offset-3">
+                <h1>{% trans "Sign Up" %}</h1>
+
+                <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>
+                    .{% endblocktrans %}</p>
+                    <form class="signup" id="signup_form" method="post" action="" enctype="multipart/form-data">
+
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            {{ form.username }}
+                        </div>
+                        {% for error in form.username.errors %}
+                            <span class="text-error">{{ error }}</span>
+                        {% endfor %}
+
+                        <div class="input-group mb-4">
+                            {{ form.password1 }}
+                        </div>
+                        {% for error in form.password1.errors %}
+                            <span class="text-error">{{ error }}</span>
+                        {% endfor %}
+
+                        <div class="input-group mb-4">
+                            {{ form.password2 }}
+                        </div>
+                        {% for error in form.password2.errors %}
+                            <span class="text-error">{{ error }}</span>
+                        {% endfor %}
+                        <div class="input-group mb-4">
+                            <span style="font-weight: bold;">Choose Gender</span>
+                        </div>
+                        <div class="input-group mb-4">
+                            {{ form.gender }}
+                        </div>
+
+                        <div class="input-group mb-4">
+                            <span style="font-weight: bold;"> Add Profile Picture </span>
+                        </div>
+                        <div class=" mb-4">
+                            {{ form.picture }}
+                        </div>
+                        <div class=" mb-4">
+                            Add Front Image
+                        </div>
+                        <div class=" mb-4">
+                            {{ form.front_image }}
+                        </div>
+                        <div class="input-group mb-4">
+                            <span style="font-weight: bold;"> Choose your body skin tone </span>
+                        </div>
+                        <div class="input-group mb-4">
+                            {{ form.skin_tone }}
+                        </div>
+                        <div class="input-group mb-4">
+                            Choose your body undertone
+                        </div>
+                        <div class="input-group mb-4">
+                            {{ form.under_tone }}
+                        </div>
+
+                        <div class="input-group mb-4">
+                            <span style="font-weight: bold;"> Enter your body measurements </span>
+                        </div>
+                        <div class="input-group mb-4">
+                            <span style="font-weight: bold;">Hip </span>
+                        </div>
+                        <div class="input-group mb-4">
+                            {{ form.hip }}
+                        </div>
+                    <div class="input-group mb-4">
+                            <span style="font-weight: bold;"> Height </span>
+                        </div>
+                        <div class="input-group mb-4">
+                            {{ form.height }}
+                        </div>
+                    <div class="input-group mb-4">
+                            <span style="font-weight: bold;"> High Hip </span>
+                        </div>
+                        <div class="input-group mb-4">
+                            {{ form.high_hip }}
+                        </div>
+                    <div class="input-group mb-4">
+                            <span style="font-weight: bold;"> Bust </span>
+                        </div>
+                        <div class="input-group mb-4">
+                            {{ form.bust }}
+                        </div>
+                    <div class="input-group mb-4">
+                            <span style="font-weight: bold;"> waist </span>
+                        </div>
+                        <div class="input-group mb-4">
+                            {{ form.waist }}
+                        </div>
+
+
+{#                        <div class="input-group mb-4">#}
+{#                            Add Back Image#}
+{#                        </div>#}
+{#                        <div class="input-group mb-4">#}
+{#                            {{ form.back_image }}#}
+{#                        </div>#}
+
+                        {% for error in form.skin_tone.errors %}
+                            <span class="text-error">{{ error }}</span>
+                        {% endfor %}
+
+                        <!--                        <div class="form-group text-left">-->
+                        <!--                            <div class="checkbox checkbox-fill d-inline">-->
+                        <!--                                <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">-->
+                        <!--                                <label for="checkbox-fill-a1" class="cr"> Agree with <a href="#">terms</a></label>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+{#                        <button type="submit" name="register" class="btn btn-primary shadow-2 mb-4">Register</button>#}
+<button type="submit" class="btn btn-primary">{% trans "Sign Up" %} &raquo;</button>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    </form>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

@@ -21,7 +21,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'crispy_forms',
     'django_countries',
-    'core'
+    # 'core'
+    'core.apps.CoreConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -107,6 +109,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
 
 # CRISPY FORM
 
