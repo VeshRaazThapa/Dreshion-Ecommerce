@@ -12,7 +12,8 @@ from .views import (
     AddCouponView,
     RequestRefundView,
     CategoryView,
-    filter_data
+    filter_data,
+    face_dominant_color_extraction, get_color_palette, get_matching_clothes
 
 )
 
@@ -32,5 +33,8 @@ urlpatterns = [
     path('remove-item-from-cart/<slug>/', remove_single_item_from_cart,
          name='remove-single-item-from-cart'),
     path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
-    path('request-refund/', RequestRefundView.as_view(), name='request-refund')
+    path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
+    path('face-color-extraction/', face_dominant_color_extraction, name='face-color-extraction'),
+    path('matching-extraction/', get_color_palette, name='matching-color-extraction'),
+    path('matching-cloth-extraction/', get_matching_clothes, name='matching-cloth-extraction')
 ]

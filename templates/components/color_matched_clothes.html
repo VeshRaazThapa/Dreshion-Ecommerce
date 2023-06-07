@@ -1,0 +1,18 @@
+<style>
+        .color-box {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+        }
+</style>
+<h2>Matching Color Clothes</h2>
+{#{{ matching_color_cloths }}#}
+{% for matching_color_cloth in matching_color_cloths %}
+<img src="{{ matching_color_cloth.cloth.image.url }}">
+{{ matching_color_cloth.cloth.title }}
+
+{% endfor %}
+{#{% for matching_color_cloth in matching_color_cloths %}#}
+{#    {{ matching_color_cloth }}#}
+{#{% endfor %}#}

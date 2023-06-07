@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of Hexcode Colors</title>
+
+</head>
+<body>
+<div id="color-list">
+    {#    {% csrf_token %}#}
+    <ul class="p-b-54">
+        <li class="p-t-4">
+            Skin Color:
+            <br>
+            <input type="color" id="skin_color" name="color" class="color-box" value="{{ identified_face_color }}"
+                   title="Adjust your skin color">
+        </li>
+        <li class="p-t-4">
+            Skin Tone: {{ identified_face_color_description }}
+        </li>
+        <div id="matching_color">
+            {% include 'components/matching_colors.html' with matching=matching complementary=complementary triadic=triadic analogous=analogous monochromatic=monochromatic %}
+        </div>
+    </ul>
+
+    <div id="matching_cloths"></div>
+</div>
+</body>
+<script>
+    $(document).ready(function () {
+        $('#skin_color').change(function () {
+            var color = $(this).val();
+            {#var csrftoken = '{% csrf_token %}';#}
+            // Perform AJAX request
+            $.ajax({
+                url: '{% url 'core:matching-color-extraction' %}',  // Replace with the actual endpoint URL
+                type: 'GET',  // or 'GET' depending on your server configuration
+                data: {
+                    color: color,
+                    {#csrfmiddlewaretoken: csrftoken#}
+                },
+                {#beforeSend: function(xhr, settings) {#}
+                // Set the CSRF token in the request headers
+                {#xhr.setRequestHeader('X-CSRFToken', csrftoken);#}
+                success: function (response) {
+                    // Handle the response from the server
+                    {#console.log(response);#}
+                    $('#matching_color').html(response);
+                },
+                error: function (xhr, status, error) {
+                    // Handle any errors that occurred during the request
+                    console.log(error);
+                }
+            });
+        });
+
+    });
+
+</script>
+</html>
