@@ -3,7 +3,7 @@
                                 <!-- Block2 -->
                                 <div class="block2">
                                     <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                        <img src="{{ item.cloth.image.url }}" alt="IMG-PRODUCT"
+                                        <img src="{{ item.image.url }}" alt="IMG-PRODUCT"
                                              style="height: 360px;">
 
                                         <div class="block2-overlay trans-0-4">
@@ -22,13 +22,13 @@
                                     </div>
 
                                     <div class="block2-txt p-t-20">
-                                        <a href="{{ item.cloth.get_absolute_url }}"
+                                        <a href="{{ item.get_absolute_url }}"
                                            class="block2-name dis-block s-text3 p-b-5">
-                                            {{ item.cloth.title }}
+                                            {{ item.title }}
                                         </a>
 
                                         <span class="block2-price m-text6 p-r-5">
-										${{ item.cloth.price }}
+										${{ item.price }}
 									</span>
                                     </div>
                                 </div>

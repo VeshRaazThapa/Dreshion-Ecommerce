@@ -148,7 +148,7 @@ def get_matching_clothes(request):
     if request.method == 'GET' and request.GET.get('color'):
         color = request.GET.get('color')
         matching_color_cloths = rank_matching_color_cloth(color)
-        return render(request, 'components/color_matched_clothes.html', {'matching_color_cloths':matching_color_cloths})
+        return render(request, 'components/color_matched_clothes.html', {'object_list':matching_color_cloths})
 
     return JsonResponse({'error': 'Invalid request'})
 
