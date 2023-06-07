@@ -158,7 +158,7 @@ class Item(models.Model):
     image = models.ImageField()
     vton_image = models.ImageField(upload_to='vton',blank=True,null=True)
     edge_image = models.ImageField(upload_to='edge',blank=True,null=True)
-
+    url = models.URLField(max_length=200, blank=True,null=True, help_text='Enter the URL.')
     is_active = models.BooleanField(default=True)
     process_image = models.BooleanField(default=False)
 
