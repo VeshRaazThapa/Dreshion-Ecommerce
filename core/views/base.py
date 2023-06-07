@@ -115,7 +115,7 @@ class PaymentView(View):
 
 
 class HomeView(ListView):
-    template_name = "index.html"
+    template_name = "home.html"
     queryset = Item.objects.filter(is_active=True)
     context_object_name = 'items'
 
@@ -219,11 +219,6 @@ class ItemDetailView(DetailView):
             # Add some additional context data to the template
         context['recommended_matching_clothes'] = recommended_matching_cloth
         return context
-
-
-# class CategoryView(DetailView):
-#     model = Category
-#     template_name = "category.html"
 
 class CategoryView(View):
     def get(self, request, *args, **kwargs):
