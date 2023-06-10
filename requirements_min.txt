@@ -10,3 +10,9 @@ extcolors
 colormap
 easydev
 # pip install colorgram.py
+requests_toolbelt
+pandas
+matplotlib
+opencv-python
+IPython
+colormath
