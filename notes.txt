@@ -1,2 +1,5 @@
 conda activate ecommerce
 python3 manage.py runserver
+
+nohup python app.py > output.log &
+nohup python manage.py runserver 0.0.0.0:4000 &
