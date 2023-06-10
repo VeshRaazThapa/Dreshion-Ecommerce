@@ -9,7 +9,7 @@ import requests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 from django.core.files import File
-
+API_BASE_URL = 'http://127.0.0.1:5000'
 @receiver(post_save, sender=Item)
 def clothing_preprocessing(sender, instance, created, **kwargs):
 
@@ -32,7 +32,7 @@ def clothing_preprocessing(sender, instance, created, **kwargs):
         # multipart_data = MultipartEncoder(fields=data)
 
         # Make the POST request to the API endpoint
-        response = requests.post('http://127.0.0.1:5000/process-cloth-image', data=data,files=files
+        response = requests.post(API_BASE_URL+'/process-cloth-image', data=data,files=files
                                  # headers={'Content-Type': multipart_data.content_type}
                                  )
 
@@ -72,7 +72,7 @@ def person_preprocessing(sender, instance, created, **kwargs):
         # multipart_data = MultipartEncoder(fields=data)
 
         # Make the POST request to the API endpoint
-        response = requests.post('http://127.0.0.1:5000/process-person-image', data=data,files=files
+        response = requests.post(API_BASE_URL+'/process-person-image', data=data,files=files
                                  # headers={'Content-Type': multipart_data.content_type}
                                  )
 
