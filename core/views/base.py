@@ -12,6 +12,8 @@ from core.models import Item, OrderItem, Order, BillingAddress, Payment, Coupon,
     TOP, BOTTOM, ONEPIECE, OTHER, Profile, Gender
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+
+from .constants import API_BASE_URL, process_image
 from .recommendations import get_recommendation, calculate_harmony_score, recommend_matching_cloth, \
     user_body_type_detection
 
@@ -26,6 +28,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 from django.core.files import File
+from django.core.files.base import ContentFile
 
 
 def create_ref_code():
@@ -202,13 +205,11 @@ class ItemDetailView(DetailView):
                 }
                 # multipart_data = MultipartEncoder(fields=data)
                 # process_image = False
-                process_image = True
                 if process_image:
                     # Make the POST request to the API endpoint
-                    response = requests.post('http://127.0.0.1:5000/virtual-tryon', data={}, files=files
+                    response = requests.post(API_BASE_URL+'/virtual-tryon', data={}, files=files
                                              # headers={'Content-Type': multipart_data.content_type}
                                              )
-                    from django.core.files.base import ContentFile
 
                     # vton_image = ContentFile(response.content)
                     current_object.vton_image.save('viton_image.png', ContentFile(response.content), save=True)
