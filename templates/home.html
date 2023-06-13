@@ -47,14 +47,6 @@
 {#                             style="border-radius: 50%;width: 100px; height: 100px;">#}
                         <br>
                         <br>
-
-                        <div>
-                            <video id="video" width="260" height="240" autoplay style="display: None;"></video>
-                            <audio id="shutter-sound" src="{% static 'shutter-sound2.wav' %}"></audio>
-                            <button id="startButton">Analyse Skin Tone</button>
-                            <button id="offButton" style="display: None;">Off Camera</button>
-
-                        </div>
                         <div id="flash" style="
         display: none;
         position: absolute;
@@ -67,22 +59,31 @@
         transition: opacity 0.2s ease-in-out;
     "></div>
 
+                        <div class="shadow-sm p-2 mb-5 bg-white rounded">
+                            <video id="video" width="230" height="240" autoplay style="display: None;"></video>
+                            <audio id="shutter-sound" src="{% static 'shutter-sound2.wav' %}"></audio>
+                            <button id="startButton" class="btn btn-info"><b>Analyse Skin Tone</b></button>
+
+                            <button id="offButton" style="display: None;"  class="btn btn-dark m-t-2">Off Camera</button>
+
                         <div>
-                            <button id="capture-button" style="display: none;">Capture Image</button>
+                            <button id="capture-button" style="display: none;" class="btn btn-success m-t-2">Capture Image</button>
                         </div>
-                        <div>
-                            <form id="upload-form" method="post" enctype="multipart/form-data" style="display: none;">
+                        <div >
+                            <br>
+                            <form id="upload-form" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <input type="hidden" name="image_data" id="image-data">
-                                <button type="submit">Upload Image</button>
+                                <input type="file" id="face_image" name="face_image">
+{#                                <input name="face_image" id="face_image">#}
+                                <button type="submit" class="btn btn-primary m-t-5">Upload Image</button>
                             </form>
                         </div>
                         <canvas id="canvas" style="display: none;"></canvas>
 
-                        <br>
-                        <br>
                         <div id="color-list">
                             <!-- Colors will be inserted here -->
+                        </div>
                         </div>
 
 
@@ -295,7 +296,7 @@
                 videoElement.style.display = 'None';
                 startButton.style.display = 'block';
                 captureButton.style.display = 'None';
-                uploadFormElement.style.display = 'None';
+                {#uploadFormElement.style.display = 'None';#}
             });
 
             // Capture the current frame from the video stream
@@ -344,7 +345,10 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
+                        document.getElementById('image-data').value = null;
                         $('#color-list').html(response);
+                        {#var inputField = document.getElementById("#image-data");#}
+                        {#inputField.value = "";#}
                     },
                     error: function (error) {
                         console.log(error);

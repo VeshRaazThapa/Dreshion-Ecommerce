@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang=en>
+  <head>
+    <title>_pickle.UnpicklingError: invalid load key, &#39;v&#39;.
+ // Werkzeug Debugger</title>
+    <link rel="stylesheet" href="?__debugger__=yes&amp;cmd=resource&amp;f=style.css">
+    <link rel="shortcut icon"
+        href="?__debugger__=yes&amp;cmd=resource&amp;f=console.png">
+    <script src="?__debugger__=yes&amp;cmd=resource&amp;f=debugger.js"></script>
+    <script>
+      var CONSOLE_MODE = false,
+          EVALEX = true,
+          EVALEX_TRUSTED = false,
+          SECRET = "ufECZH7bikq2v3VGLwJR";
+    </script>
+  </head>
+  <body style="background-color: #fff">
+    <div class="debugger">
+<h1>UnpicklingError</h1>
+<div class="detail">
+  <p class="errormsg">_pickle.UnpicklingError: invalid load key, &#39;v&#39;.
+</p>
+</div>
+<h2 class="traceback">Traceback <em>(most recent call last)</em></h2>
+<div class="traceback">
+  <h3></h3>
+  <ul><li><div class="frame" id="frame-140558042226624">
+  <h4>File <cite class="filename">"/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py"</cite>,
+      line <em class="line">2213</em>,
+      in <code class="function">__call__</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">    </span>def __call__(self, environ: dict, start_response: t.Callable) -&gt; t.Any:</pre>
+<pre class="line before"><span class="ws">        </span>&#34;&#34;&#34;The WSGI server calls the Flask application object as the</pre>
+<pre class="line before"><span class="ws">        </span>WSGI application. This calls :meth:`wsgi_app`, which can be</pre>
+<pre class="line before"><span class="ws">        </span>wrapped to apply middleware.</pre>
+<pre class="line before"><span class="ws">        </span>&#34;&#34;&#34;</pre>
+<pre class="line current"><span class="ws">        </span>return self.wsgi_app(environ, start_response)
+<span class="ws">        </span>       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140558042225760">
+  <h4>File <cite class="filename">"/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py"</cite>,
+      line <em class="line">2193</em>,
+      in <code class="function">wsgi_app</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span>try:</pre>
+<pre class="line before"><span class="ws">                </span>ctx.push()</pre>
+<pre class="line before"><span class="ws">                </span>response = self.full_dispatch_request()</pre>
+<pre class="line before"><span class="ws">            </span>except Exception as e:</pre>
+<pre class="line before"><span class="ws">                </span>error = e</pre>
+<pre class="line current"><span class="ws">                </span>response = self.handle_exception(e)
+<span class="ws">                </span>           ^^^^^^^^^^^^^^^^^^^^^^^^</pre>
+<pre class="line after"><span class="ws">            </span>except:  # noqa: B001</pre>
+<pre class="line after"><span class="ws">                </span>error = sys.exc_info()[1]</pre>
+<pre class="line after"><span class="ws">                </span>raise</pre>
+<pre class="line after"><span class="ws">            </span>return response(environ, start_response)</pre>
+<pre class="line after"><span class="ws">        </span>finally:</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140558042225616">
+  <h4>File <cite class="filename">"/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py"</cite>,
+      line <em class="line">2190</em>,
+      in <code class="function">wsgi_app</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>ctx = self.request_context(environ)</pre>
+<pre class="line before"><span class="ws">        </span>error: BaseException | None = None</pre>
+<pre class="line before"><span class="ws">        </span>try:</pre>
+<pre class="line before"><span class="ws">            </span>try:</pre>
+<pre class="line before"><span class="ws">                </span>ctx.push()</pre>
+<pre class="line current"><span class="ws">                </span>response = self.full_dispatch_request()
+<span class="ws">                </span>           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^</pre>
+<pre class="line after"><span class="ws">            </span>except Exception as e:</pre>
+<pre class="line after"><span class="ws">                </span>error = e</pre>
+<pre class="line after"><span class="ws">                </span>response = self.handle_exception(e)</pre>
+<pre class="line after"><span class="ws">            </span>except:  # noqa: B001</pre>
+<pre class="line after"><span class="ws">                </span>error = sys.exc_info()[1]</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140558042225904">
+  <h4>File <cite class="filename">"/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py"</cite>,
+      line <em class="line">1486</em>,
+      in <code class="function">full_dispatch_request</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">            </span>request_started.send(self, _async_wrapper=self.ensure_sync)</pre>
+<pre class="line before"><span class="ws">            </span>rv = self.preprocess_request()</pre>
+<pre class="line before"><span class="ws">            </span>if rv is None:</pre>
+<pre class="line before"><span class="ws">                </span>rv = self.dispatch_request()</pre>
+<pre class="line before"><span class="ws">        </span>except Exception as e:</pre>
+<pre class="line current"><span class="ws">            </span>rv = self.handle_user_exception(e)
+<span class="ws">            </span>     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</pre>
+<pre class="line after"><span class="ws">        </span>return self.finalize_request(rv)</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>def finalize_request(</pre>
+<pre class="line after"><span class="ws">        </span>self,</pre>
+<pre class="line after"><span class="ws">        </span>rv: ft.ResponseReturnValue | HTTPException,</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140558042226192">
+  <h4>File <cite class="filename">"/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py"</cite>,
+      line <em class="line">1482</em>,
+      in <code class="function">full_dispatch_request</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>&#34;&#34;&#34;</pre>
+<pre class="line before"><span class="ws">        </span>self._got_first_request = True</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">        </span>try:</pre>
+<pre class="line before"><span class="ws">            </span>request_started.send(self, _async_wrapper=self.ensure_sync)</pre>
+<pre class="line current"><span class="ws">            </span>rv = self.preprocess_request()
+<span class="ws">            </span>     ^^^^^^^^^^^^^^^^^^^^^^^^^</pre>
+<pre class="line after"><span class="ws">            </span>if rv is None:</pre>
+<pre class="line after"><span class="ws">                </span>rv = self.dispatch_request()</pre>
+<pre class="line after"><span class="ws">        </span>except Exception as e:</pre>
+<pre class="line after"><span class="ws">            </span>rv = self.handle_user_exception(e)</pre>
+<pre class="line after"><span class="ws">        </span>return self.finalize_request(rv)</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140558042225472">
+  <h4>File <cite class="filename">"/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py"</cite>,
+      line <em class="line">1974</em>,
+      in <code class="function">preprocess_request</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">                    </span>url_func(request.endpoint, request.view_args)</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws">        </span>for name in names:</pre>
+<pre class="line before"><span class="ws">            </span>if name in self.before_request_funcs:</pre>
+<pre class="line before"><span class="ws">                </span>for before_func in self.before_request_funcs[name]:</pre>
+<pre class="line current"><span class="ws">                    </span>rv = self.ensure_sync(before_func)()
+<span class="ws">                    </span>     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">                    </span>if rv is not None:</pre>
+<pre class="line after"><span class="ws">                        </span>return rv</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">        </span>return None</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140558042226336">
+  <h4>File <cite class="filename">"/home/deployer/ai_tools/dreshion_virtual_tryon/main/app.py"</cite>,
+      line <em class="line">20</em>,
+      in <code class="function">load_variable</code></h4>
+  <div class="source "><pre class="line before"><span class="ws"></span> </pre>
+<pre class="line before"><span class="ws"></span>@app.before_request</pre>
+<pre class="line before"><span class="ws"></span>def load_variable():</pre>
+<pre class="line before"><span class="ws">    </span># preprocessing</pre>
+<pre class="line before"><span class="ws">    </span># import U-2-Net.u2net_run</pre>
+<pre class="line current"><span class="ws">    </span>g.u2net = u2net_load.model(model_name=&#39;u2netp&#39;)
+<span class="ws">    </span>          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws"></span>def composite_background(person_image_path, tryon_image_path, img_mask):</pre>
+<pre class="line after"><span class="ws">    </span>from PIL import Image, ImageOps</pre>
+<pre class="line after"><span class="ws">    </span>import numpy as np</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140558042226768">
+  <h4>File <cite class="filename">"/home/deployer/ai_tools/dreshion_virtual_tryon/main/U-2-Net/u2net_load.py"</cite>,
+      line <em class="line">19</em>,
+      in <code class="function">model</code></h4>
+  <div class="source "><pre class="line before"><span class="ws">        </span>net = U2NET(3,1)</pre>
+<pre class="line before"><span class="ws">    </span>elif(model_name==&#39;u2netp&#39;):</pre>
+<pre class="line before"><span class="ws">        </span>print(&#34;...load U2NEP---4.7 MB&#34;)</pre>
+<pre class="line before"><span class="ws">        </span>net = U2NETP(3,1)</pre>
+<pre class="line before"><span class="ws">    </span># net.load_state_dict(torch.load(model_dir))</pre>
+<pre class="line current"><span class="ws">    </span>net.load_state_dict(torch.load(model_dir, map_location=torch.device(&#39;cpu&#39;)))
+<span class="ws">    </span>                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws">    </span>if torch.cuda.is_available():</pre>
+<pre class="line after"><span class="ws">        </span>net.cuda()</pre>
+<pre class="line after"><span class="ws">    </span>net.eval()</pre>
+<pre class="line after"><span class="ws"></span> </pre></div>
+</div>
+
+<li><div class="frame" id="frame-140558042226480">
+  <h4>File <cite class="filename">"/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/torch/serialization.py"</cite>,
+      line <em class="line">815</em>,
+      in <code class="function">load</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>if weights_only:</pre>
+<pre class="line before"><span class="ws">            </span>try:</pre>
+<pre class="line before"><span class="ws">                </span>return _legacy_load(opened_file, map_location, _weights_only_unpickler, **pickle_load_args)</pre>
+<pre class="line before"><span class="ws">            </span>except RuntimeError as e:</pre>
+<pre class="line before"><span class="ws">                </span>raise pickle.UnpicklingError(UNSAFE_MESSAGE + str(e)) from None</pre>
+<pre class="line current"><span class="ws">        </span>return _legacy_load(opened_file, map_location, pickle_module, **pickle_load_args)
+<span class="ws">        </span>       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws"></span> </pre>
+<pre class="line after"><span class="ws"></span># Register pickling support for layout instances such as</pre>
+<pre class="line after"><span class="ws"></span># torch.sparse_coo, etc</pre>
+<pre class="line after"><span class="ws"></span>def _get_layout(name):</pre></div>
+</div>
+
+<li><div class="frame" id="frame-140558042226912">
+  <h4>File <cite class="filename">"/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/torch/serialization.py"</cite>,
+      line <em class="line">1033</em>,
+      in <code class="function">_legacy_load</code></h4>
+  <div class="source library"><pre class="line before"><span class="ws">        </span>raise RuntimeError(</pre>
+<pre class="line before"><span class="ws">            </span>&#34;torch.load does not work with file-like objects that do not implement readinto on Python 3.8.0 and 3.8.1. &#34;</pre>
+<pre class="line before"><span class="ws">            </span>f&#34;Received object of type \&#34;{type(f)}\&#34;. Please update to Python 3.8.2 or newer to restore this &#34;</pre>
+<pre class="line before"><span class="ws">            </span>&#34;functionality.&#34;)</pre>
+<pre class="line before"><span class="ws"></span> </pre>
+<pre class="line current"><span class="ws">    </span>magic_number = pickle_module.load(f, **pickle_load_args)
+<span class="ws">    </span>               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</pre>
+<pre class="line after"><span class="ws">    </span>if magic_number != MAGIC_NUMBER:</pre>
+<pre class="line after"><span class="ws">        </span>raise RuntimeError(&#34;Invalid magic number; corrupt file?&#34;)</pre>
+<pre class="line after"><span class="ws">    </span>protocol_version = pickle_module.load(f, **pickle_load_args)</pre>
+<pre class="line after"><span class="ws">    </span>if protocol_version != PROTOCOL_VERSION:</pre>
+<pre class="line after"><span class="ws">        </span>raise RuntimeError(&#34;Invalid protocol version: %s&#34; % protocol_version)</pre></div>
+</div>
+</ul>
+  <blockquote>_pickle.UnpicklingError: invalid load key, &#39;v&#39;.
+</blockquote>
+</div>
+
+<div class="plain">
+    <p>
+      This is the Copy/Paste friendly version of the traceback.
+    </p>
+    <textarea cols="50" rows="10" name="code" readonly>Traceback (most recent call last):
+  File &#34;/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py&#34;, line 2213, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &#34;/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py&#34;, line 2193, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File &#34;/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py&#34;, line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &#34;/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py&#34;, line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &#34;/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py&#34;, line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &#34;/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py&#34;, line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &#34;/home/deployer/ai_tools/dreshion_virtual_tryon/main/app.py&#34;, line 20, in load_variable
+    g.u2net = u2net_load.model(model_name=&#39;u2netp&#39;)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &#34;/home/deployer/ai_tools/dreshion_virtual_tryon/main/U-2-Net/u2net_load.py&#34;, line 19, in model
+    net.load_state_dict(torch.load(model_dir, map_location=torch.device(&#39;cpu&#39;)))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &#34;/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/torch/serialization.py&#34;, line 815, in load
+    return _legacy_load(opened_file, map_location, pickle_module, **pickle_load_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &#34;/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/torch/serialization.py&#34;, line 1033, in _legacy_load
+    magic_number = pickle_module.load(f, **pickle_load_args)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_pickle.UnpicklingError: invalid load key, &#39;v&#39;.
+</textarea>
+</div>
+<div class="explanation">
+  The debugger caught an exception in your WSGI application.  You can now
+  look at the traceback which led to the error.  <span class="nojavascript">
+  If you enable JavaScript you can also use additional features such as code
+  execution (if the evalex feature is enabled), automatic pasting of the
+  exceptions and much more.</span>
+</div>
+      <div class="footer">
+        Brought to you by <strong class="arthur">DON'T PANIC</strong>, your
+        friendly Werkzeug powered traceback interpreter.
+      </div>
+    </div>
+
+    <div class="pin-prompt">
+      <div class="inner">
+        <h3>Console Locked</h3>
+        <p>
+          The console is locked and needs to be unlocked by entering the PIN.
+          You can find the PIN printed out on the standard output of your
+          shell that runs the server.
+        <form>
+          <p>PIN:
+            <input type=text name=pin size=14>
+            <input type=submit name=btn value="Confirm Pin">
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+
+<!--
+
+Traceback (most recent call last):
+  File "/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py", line 2213, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py", line 2193, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py", line 1482, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/flask/app.py", line 1974, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/deployer/ai_tools/dreshion_virtual_tryon/main/app.py", line 20, in load_variable
+    g.u2net = u2net_load.model(model_name='u2netp')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/deployer/ai_tools/dreshion_virtual_tryon/main/U-2-Net/u2net_load.py", line 19, in model
+    net.load_state_dict(torch.load(model_dir, map_location=torch.device('cpu')))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/torch/serialization.py", line 815, in load
+    return _legacy_load(opened_file, map_location, pickle_module, **pickle_load_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/deployer/miniconda3/envs/ecommerce/lib/python3.11/site-packages/torch/serialization.py", line 1033, in _legacy_load
+    magic_number = pickle_module.load(f, **pickle_load_args)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_pickle.UnpicklingError: invalid load key, 'v'.
+
+
+-->

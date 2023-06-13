@@ -1,6 +1,7 @@
 """this section is for skin color and skin type extraction"""
 import base64
 import colorsys
+from django.core.files.storage import FileSystemStorage
 
 import webcolors
 from django.http import JsonResponse
@@ -39,19 +40,30 @@ from webcolors import hex_to_rgb, rgb_to_hex, rgb_to_name
 
 
 def face_dominant_color_extraction(request):
-    if request.method == 'POST' and request.POST.get('image_data'):
+    if request.method == 'POST':
         print('-------post----request')
-        image_data = request.POST['image_data']
-        image_data = image_data.replace("data:image/jpeg;base64,", "")
-        image_binary = base64.b64decode(image_data)
-        filename = "images/screen_capture.jpg"  # You can modify this to generate a unique filename if needed
-        image_file = ContentFile(image_binary)
-        saved_image_path = default_storage.save(filename, image_file)
-        saved_image_abs_path = os.path.join(settings.MEDIA_ROOT, saved_image_path)
+        if request.POST.get('image_data'):
+            image_data = request.POST['image_data']
+            image_data = image_data.replace("data:image/jpeg;base64,", "")
+            image_binary = base64.b64decode(image_data)
+            filename = "images/screen_capture.jpg"  # You can modify this to generate a unique filename if needed
+            image_file = ContentFile(image_binary)
+            saved_image_path = default_storage.save(filename, image_file)
+            saved_image_abs_path = os.path.join(settings.MEDIA_ROOT, saved_image_path)
+        else:
+            image = request.FILES['face_image']
+            fs = FileSystemStorage(location=settings.MEDIA_ROOT)
+            filename = fs.save(image.name, image)
+            saved_image_path = fs.url(filename)
+            print(saved_image_path, '----')
+            print(settings.MEDIA_ROOT)
+            saved_image_abs_path=settings.MEDIA_ROOT + saved_image_path.replace('media/','')
+
         resize = 900
         tolerance = 12
         zoom = 2.5
         output_width = resize
+
         img = recognize_face(saved_image_abs_path)
         if img.size[0] >= resize:
             wpercent = (output_width / float(img.size[0]))

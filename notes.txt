@@ -1,5 +1,14 @@
 conda activate ecommerce
 python3 manage.py runserver
 
+1.virtual tryon api
 nohup python app.py > output.log &
+ps aux | grep "python app.py"
+process id = 3756801
+
+2.virtual tryon api
 nohup python manage.py runserver 0.0.0.0:4000 &
+process id = 3734332
+ps aux | grep "python manage.py runserver 0.0.0.0:4000" | grep -v grep
+kill <PID>
+
