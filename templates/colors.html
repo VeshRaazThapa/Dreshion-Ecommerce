@@ -6,8 +6,14 @@
 </head>
 <body>
 <div id="color-list">
-    {#    {% csrf_token %}#}
     <ul class="p-b-54">
+
+        <li class="p-t-4">
+            Recognized Face:
+            <br>
+            <img src="{{ saved_image_abs_path }}" alt="Girl in a jacket" width="50" height="50" style="border-radius: 10%;">
+
+        </li>
         <li class="p-t-4">
             Skin Color:
             <br>

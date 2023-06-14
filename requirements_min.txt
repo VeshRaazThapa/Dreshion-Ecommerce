@@ -16,3 +16,5 @@ matplotlib
 opencv-python
 IPython
 colormath
+# line 79 in color_diff.py file
+#     return numpy.array(delta_e).item()
