@@ -55,8 +55,8 @@ def face_dominant_color_extraction(request):
             fs = FileSystemStorage(location=settings.MEDIA_ROOT)
             filename = fs.save(image.name, image)
             saved_image_path = fs.url(filename)
-            print(saved_image_path, '----')
-            print(settings.MEDIA_ROOT)
+            # print(saved_image_path, '----')
+            # print(settings.MEDIA_ROOT)
             saved_image_abs_path=settings.MEDIA_ROOT + saved_image_path.replace('media/','')
 
         resize = 900
@@ -80,6 +80,7 @@ def face_dominant_color_extraction(request):
         colors_x = extcolors.extract_from_path(img_url, tolerance=tolerance, limit=13)
         df_color = color_to_df(colors_x)
 
+
         # annotate text
         list_color = list(df_color['c_code'])
         list_precent = [int(i) for i in list(df_color['occurence'])]
@@ -90,8 +91,10 @@ def face_dominant_color_extraction(request):
         palette = color_palette_generator(max_color)
         # print(max_color)
         # rgb = hex_to_rgb(max_color)
+        print(saved_image_path,'----')
         return render(request, 'colors.html', {'identified_face_color': max_color,
                                                'identified_face_color_description': classify_skin_tone(max_color),
+                                               'saved_image_abs_path':saved_image_path,
                                                **palette
                                                })
 
